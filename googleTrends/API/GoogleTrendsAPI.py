@@ -1,3 +1,13 @@
+from pytrends.request import TrendReq
+import resource
+import pandas as pd
+pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2, backoff_factor=0.1)
+
+
+def addgeo(df: pd.DataFrame):
+    loc_df = resource.values.loc_df
+    return df.reset_index().merge(loc_df, on='geoName').dropna()
+
 
 def getdataovertime(kw: str, timeframe):
     pytrends.build_payload(kw_list=[kw], timeframe=timeframe, cat=0)
@@ -6,5 +16,20 @@ def getdataovertime(kw: str, timeframe):
 
 def getdatabyregion(kw: str, timeframe):
     pytrends.build_payload(kw_list=[kw], timeframe=timeframe, cat=0)
-    return pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False)
+    df = addgeo(pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False))
+    df['time'] = timeframe
+    return df
 
+
+def getdatabyregionmultiple(kw_list: list, timeframe):
+    df = pd.DataFrame()
+    for kw in kw_list:
+        pytrends.build_payload(kw_list=[kw], timeframe=timeframe, cat=0)
+        if df.empty:
+            df = pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False)
+        else:
+            df = df.join(pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False))
+    df = addgeo(df)
+    df['mid'] = df[df.columns[~df.columns.isin(resource.values.loc_columns)]].median(axis=1)
+    df['time'] = timeframe
+    return df

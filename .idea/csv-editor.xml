@@ -3,7 +3,7 @@
   <component name="CsvFileAttributes">
     <option name="attributeMap">
       <map>
-        <entry key="\geoLocation.csv">
+        <entry key="\googleTrends\API\geoLocation.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />
