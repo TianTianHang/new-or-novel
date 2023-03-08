@@ -1,2 +1,2 @@
 
-from googleTrends.API import GoogleTrendsAPI
+from googleTrends.API.GoogleTrendsAPI import *

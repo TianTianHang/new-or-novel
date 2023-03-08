@@ -1,6 +1,7 @@
 from pytrends.request import TrendReq
 import resource
 import pandas as pd
+
 pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2, backoff_factor=0.1)
 
 
@@ -11,7 +12,9 @@ def addgeo(df: pd.DataFrame):
 
 def getdataovertime(kw: str, timeframe):
     pytrends.build_payload(kw_list=[kw], timeframe=timeframe, cat=0)
-    return pytrends.interest_over_time()
+    df = pytrends.interest_over_time()
+    df.reset_index(names='time', inplace=True)
+    return df[['time', kw]]
 
 
 def getdatabyregion(kw: str, timeframe):

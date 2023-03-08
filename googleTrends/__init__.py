@@ -1,1 +1,1 @@
-from googleTrends import services
+from googleTrends.services import *
