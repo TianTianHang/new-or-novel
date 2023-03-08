@@ -1,12 +1,15 @@
-from pytrends.request import TrendReq
-import resource
 import pandas as pd
+from pytrends.request import TrendReq
+from requests import ConnectTimeout
 
-pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2, backoff_factor=0.1)
+try:
+    pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2, backoff_factor=0.1)
+except ConnectTimeout as e:
+    print("无法连接到googletrends")
 
 
 def addgeo(df: pd.DataFrame):
-    loc_df = resource.values.loc_df
+    loc_df = src.resource.values.loc_df
     return df.reset_index().merge(loc_df, on='geoName').dropna()
 
 
@@ -33,6 +36,6 @@ def getdatabyregionmultiple(kw_list: list, timeframe):
         else:
             df = df.join(pytrends.interest_by_region(resolution='COUNTRY', inc_low_vol=True, inc_geo_code=False))
     df = addgeo(df)
-    df['mid'] = df[df.columns[~df.columns.isin(resource.values.loc_columns)]].median(axis=1)
+    df['mid'] = df[df.columns[~df.columns.isin(src.resource.values.loc_columns)]].median(axis=1)
     df['time'] = timeframe
     return df

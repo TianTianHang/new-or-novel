@@ -1,4 +1,5 @@
 import pandas as pd
+
 from googleTrends import API
 from resource import values
 
