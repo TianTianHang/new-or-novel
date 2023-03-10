@@ -1,1 +1,1 @@
-from googleTrends.services import *
+from googleTrends.services import getdatabyovertime, getdatabyregion_overtime

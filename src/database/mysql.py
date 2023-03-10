@@ -7,23 +7,17 @@ engine = create_engine(
 
 
 def saveregion(df: pd.DataFrame):
-    word = df.columns[1]
-    df['word'] = word
-    df.rename(columns={word: 'HeatValue'}, inplace=True)
     df[['geoCode', 'geoName', 'time', 'word', 'HeatValue']].to_sql('byregion', engine, if_exists='append', index=False)
 
 
 def readregion(word, time):
     sql_query = "SELECT geoCode,geoName,time,HeatValue '{}' " \
-                "FROM byregion WHERE word='{}' AND time='{}'".format(word,word,time)
+                "FROM byregion WHERE word='{}' AND time='{}'".format(word, word, time)
     df = pd.read_sql(text(sql_query), engine.connect())
     return df
 
 
 def saveovertime(df: pd.DataFrame):
-    word = df.columns[1]
-    df['word'] = word
-    df.rename(columns={word: 'HeatValue'}, inplace=True)
     df[['time', 'word', 'HeatValue']].to_sql('byovertime', engine, if_exists='append', index=False)
 
 

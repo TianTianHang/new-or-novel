@@ -1,7 +1,11 @@
 import googleTrends
+import database
 import myplotly
+import resource
 
 if __name__ == '__main__':
-    df = googleTrends.services.getdatabyregion_overtime(['novel idea', 'novel method'],
-                                                        ['2004-01-01 2004-02-01', '2005-01-01 2005-12-31'])
-    myplotly.hotmapbyword(df, 'test', 'mid')
+    df1 = googleTrends.getdatabyovertime(['novel idea'], '2004-01-01 2022-12-31')
+    df2=googleTrends.getdatabyovertime(['new idea'], '2004-01-01 2022-12-31')
+    df= df1.append(df2)
+    print(df)
+    myplotly.linechart(df, 'test')

@@ -1,1 +1,1 @@
-from googleTrends.API.GoogleTrendsAPI import *
+from googleTrends.API.GoogleTrendsAPI import getdataovertime, getdatabyregion, getdatabyregionmultiple
