@@ -39,8 +39,10 @@ def getdatabyregionmultiple(kw_list: list, timeframe):
         if df.empty:
             df = getdatabyregion(kw, timeframe)
         else:
-            df = df.merge(getdatabyregion(kw, timeframe), on='geoCode')
+            df = df.merge(getdatabyregion(kw, timeframe)[['geoCode', kw]], on='geoCode')
     if len(kw_list) > 1:
         df['mid'] = df[df.columns[~df.columns.isin(['geoName', 'geoCode', 'lat', 'lon', 'time'])]].median(axis=1)
         df = df[['geoName', 'geoCode', 'lat', 'lon', 'time', 'mid']]
-    return df[['geoName', 'geoCode', 'lat', 'lon', 'time', kw_list[0]]]
+    else:
+        df = df[['geoName', 'geoCode', 'lat', 'lon', 'time', kw_list[0]]]
+    return df
