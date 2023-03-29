@@ -2,14 +2,16 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
-
-from app.models import Byregion, Byovertime
+from sqlalchemy import and_, or_
+from app.models import *
 import googleTrends
 import myplotly
 
 app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://{}:{}@{}:{}/{}'.format('root', '19771201qwer', 'localhost',
-                                                                                '3306', 'new_or_novel')
+# app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://{}:{}@{}:{}/{}'.format('root', '19771201qwer',
+# 'localhost','3306', 'new_or_novel')
+app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///../../db/flask.db'
+
 db = SQLAlchemy(app)
 CORS(app, supports_credentials=True)
 
@@ -51,6 +53,20 @@ def getmessage():
     for timeframe in timeframe_list:
         timeframe_list_c.append(timeframe['start'] + ' ' + timeframe['end'])
     return kw_list, timeframe_list_c, title
+
+
+@app.route('/api/kwlist', methods=['GET', 'POST'])
+def getkwlist():
+    result = None
+    s = db.session
+    if request.method == 'POST':
+        json_data = request.get_json()
+        pre_words = json_data['pre_words']
+        result = [{"pre_words": row.pre_words, "post_words": row.post_words} for row in
+                  s.query.filter_by(and_((WordList.pre_words == pre_word for pre_word in pre_words)))]
+    elif request.method == 'GET':
+        result = [{"pre_words": row.pre_words, "post_words": row.post_words} for row in s.query(WordList)]
+    return result
 
 
 if __name__ == '__main__':

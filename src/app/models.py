@@ -22,3 +22,10 @@ class Byregion(Base):
     time = Column(String(100), primary_key=True, nullable=False)
     word = Column(String(100), primary_key=True, nullable=False)
     HeatValue = Column(Integer, nullable=False)
+
+
+class WordList(Base):
+    __tablename__ = 'wordList'
+    pre_words = Column(String(100), primary_key=True, nullable=False)
+
+    post_words = Column(String(100), primary_key=True, nullable=False)
