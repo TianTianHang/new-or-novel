@@ -57,16 +57,43 @@ def getmessage():
 
 @app.route('/api/kwlist', methods=['GET', 'POST'])
 def getkwlist():
-    result = None
+    nodes = None
     s = db.session
     if request.method == 'POST':
         json_data = request.get_json()
         pre_words = json_data['pre_words']
-        result = [{"pre_words": row.pre_words, "post_words": row.post_words} for row in
-                  s.query.filter_by(and_((WordList.pre_words == pre_word for pre_word in pre_words)))]
+        nodes = get_nodes(s.query.filter_by(and_((WordList.pre_words == pre_word for pre_word in pre_words))))
     elif request.method == 'GET':
-        result = [{"pre_words": row.pre_words, "post_words": row.post_words} for row in s.query(WordList)]
+        # 取出数据构造成字典
+        nodes = get_nodes(s.query(WordList).order_by("pre_words"))
+
+    # 根据child_id构造嵌套字典
+    result = build_tree(nodes)
     return result
+
+
+# s是数据库会话
+def get_nodes(query_result):
+    nodes = [{
+        "id": row.id,
+        "word": {"pre_words": row.pre_words, "post_words": row.post_words},
+        "title": row.title,
+        "img": row.img,
+        "content": row.content,
+        "parent_id": row.parent_id
+    } for row in query_result]
+    return nodes
+
+
+def build_tree(nodes, parent_id=None):
+    tree = []
+    for node in nodes:
+        if node['parent_id'] == parent_id:
+            children = build_tree(nodes, node['id'])
+            if children:
+                node['children'] = [{k: v for k, v in child.items() if k not in ['id', 'parent_id']} for child in children]
+            tree.append({k: v for k, v in node.items() if k not in ['id', 'parent_id']})
+    return tree
 
 
 if __name__ == '__main__':

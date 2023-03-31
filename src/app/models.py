@@ -26,6 +26,10 @@ class Byregion(Base):
 
 class WordList(Base):
     __tablename__ = 'wordList'
-    pre_words = Column(String(100), primary_key=True, nullable=False)
-
-    post_words = Column(String(100), primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False)
+    pre_words = Column(String(100), nullable=False)
+    post_words = Column(String(100), nullable=False)
+    title = Column(String(100), nullable=True)
+    content = Column(String(100), nullable=True)
+    img = Column(String(100), nullable=True)
+    parent_id = Column(Integer, nullable=False)
