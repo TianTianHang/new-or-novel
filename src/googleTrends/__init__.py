@@ -1,1 +1,1 @@
-from googleTrends.services import getdatabyovertime, getdatabyregion_overtime
+from googleTrends.services import getDataOvertimeMultiWord

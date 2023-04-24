@@ -1,8 +1,10 @@
 # coding: utf-8
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.ext.declarative import declarative_base
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import Column, Integer, String, ForeignKey, Boolean
+from sqlalchemy.orm import relationship, backref
 
-Base = declarative_base()
+db = SQLAlchemy()
+Base = db.Model
 metadata = Base.metadata
 
 
@@ -26,10 +28,12 @@ class Byregion(Base):
 
 class WordList(Base):
     __tablename__ = 'wordList'
-    id = Column(Integer, primary_key=True, nullable=False)
+    id = Column(Integer, primary_key=True, nullable=False, autoincrement=True)
     pre_words = Column(String(100), nullable=False)
-    post_words = Column(String(100), nullable=False)
+    post_words = Column(String(100), nullable=True)
     title = Column(String(100), nullable=True)
     content = Column(String(100), nullable=True)
     img = Column(String(100), nullable=True)
-    parent_id = Column(Integer, nullable=False)
+    parent_id = Column(Integer, ForeignKey('wordList.id'), nullable=True)
+    has_hover = Column(Boolean, nullable=False)
+    children = relationship("WordList", backref=backref("parent", remote_side=[id]))

@@ -1,0 +1,39 @@
+<html lang="ts">
+<head>
+    <meta charset="UTF-8"/>
+    <script src="https://unpkg.com/vue@3.2.47/dist/vue.global.js"></script>
+    <!-- Import style -->
+    <link rel="stylesheet" href="https://unpkg.com/element-plus/dist/index.css"/>
+    <!-- Import component library -->
+    <script src="https://unpkg.com/element-plus"></script>
+    <title>Word Form</title>
+</head>
+<body>
+<h1>Add a word</h1>
+
+<div id="app">
+    <el-tree-v2 :data="{{ wordsTree }}" :props="{children: 'children'}" accordion node-kwy="id">
+        <template #default="{ node, data }">
+           <span>{[data.id]} </span>&nbsp;<span>{[data.word.pre_words]}</span>&nbsp;
+            <span v-if="data.word.post_words">{[data.word.post_words]}</span>
+            <div style="flex-grow: 0.8"></div>
+            <el-button v-if="data.has_hover">more</el-button>
+        </template>
+    </el-tree-v2>
+</div>
+
+<script>
+    const App = {
+        delimiters: ['{[', "]}"],
+        data() {
+            return {
+                message: "Hello Element Plus",
+            };
+        },
+    };
+    const app = Vue.createApp(App);
+    app.use(ElementPlus);
+    app.mount("#app");
+</script>
+</body>
+</html>

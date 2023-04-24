@@ -8,6 +8,9 @@
     </content>
     <orderEntry type="jdk" jdkName="C:\tools\miniconda3\envs\python310" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="vue" level="application" />
+    <orderEntry type="library" name="index" level="application" />
+    <orderEntry type="library" name="element-plus" level="application" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
