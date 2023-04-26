@@ -1,2 +1,4 @@
-SQLALCHEMY_DATABASE_URI = 'sqlite:///../../db/flask.db'
-SECRET_KEY = '918113'  # 配置加密密钥
+import os
+
+SQLALCHEMY_DATABASE_URI = 'sqlite:///../../db/'+os.getenv('DATABASE_FILE', 'flask.db')
+SECRET_KEY = os.getenv('SECRET_KEY', 'dev')
