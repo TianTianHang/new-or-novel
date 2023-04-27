@@ -1,6 +1,6 @@
 from sqlalchemy import func
 
-from app.models import WordList
+from utils.models import WordList
 
 
 def get_tree(db):

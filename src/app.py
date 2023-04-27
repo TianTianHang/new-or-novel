@@ -1,16 +1,16 @@
-import time
 
 import pandas as pd
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from flask_cors import CORS
 from flask import render_template
 from sqlalchemy import and_
 from sqlalchemy import event
-from app.helper import get_tree, getmessage
-from app.models import *
-from app import config
-import googleTrends
-import myplotly
+
+from googleTrends.services import getDataByRegionAndOvertime, getDataOvertimeMultiWord
+from myplotly import hotmapbyword,linechart
+from utils.helper import get_tree, getmessage
+from utils import config
+from utils.models import WordList, db
 
 app = Flask(__name__)
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://{}:{}@{}:{}/{}'.format('root', '19771201qwer',
@@ -35,21 +35,19 @@ def insert_initial_values(*args, **kwargs):
 @app.route('/api/hotmap', methods=['GET', 'POST'])
 def gethotmap():
     kw_list, timeframe_list, title = getmessage(request)
-    s = time.time()
-    df = googleTrends.services.getDataByRegionAndOvertime(kw_list, timeframe_list)
-    print(time.time() - s)
+    df = getDataByRegionAndOvertime(kw_list, timeframe_list)
     df['HeatValue'] = df.iloc[..., 5:].sum(axis=1)
-    fig = myplotly.hotmapbyword(df, title)
+    fig = hotmapbyword(df, title)
     return fig.to_json()
 
 
 @app.route('/api/linechart', methods=['GET', 'POST'])
 def getlinechart():
     kw_list, timeframe, title = getmessage(request)
-    df: pd.DataFrame = googleTrends.services.getDataOvertimeMultiWord(kw_list, timeframe)
+    df: pd.DataFrame = getDataOvertimeMultiWord(kw_list, timeframe)
     df['HeatValue'] = df.iloc[..., 2:].sum(axis=1)
     df = df.melt(id_vars='time', var_name='word', value_name='value')
-    fig = myplotly.linechart(df, title)
+    fig = linechart(df, title)
     return fig.to_json()
 
 

@@ -1,7 +1,5 @@
 import time
 
-from googleTrends.services import *
-import database
 import myplotly
 
 if __name__ == '__main__':

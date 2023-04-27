@@ -1,6 +1,5 @@
 import pandas as pd
 
-from googleTrends.API import *
 import gevent
 
 

@@ -1,2 +1,2 @@
-from myplotly.hotmapplotly import hotmapbyword
-from myplotly.linechart import linechart
+from myplotly.linechart import *
+from myplotly.hotmapplotly import *
