@@ -1,5 +1,5 @@
-
 import pandas as pd
+import requests
 from flask import Flask, request
 from flask_cors import CORS
 from flask import render_template
@@ -7,8 +7,8 @@ from sqlalchemy import and_
 from sqlalchemy import event
 
 from googleTrends.services import getDataByRegionAndOvertime, getDataOvertimeMultiWord
-from myplotly import hotmapbyword,linechart
-from utils.helper import get_tree, getmessage
+from myplotly import hotmapbyword, linechart
+from utils.helper import get_tree, getmessage, getmapsource
 from utils import config
 from utils.models import WordList, db
 
@@ -22,6 +22,7 @@ with app.app_context():
     db.create_all()
 
 CORS(app, supports_credentials=True, max_age=2592000)
+sources = getmapsource()
 
 
 @event.listens_for(WordList.__table__, 'after_create')
@@ -30,7 +31,20 @@ def insert_initial_values(*args, **kwargs):
     s.add(WordList(pre_words="new", has_hover=False))
     s.add(WordList(pre_words="novel", has_hover=False))
     s.commit()
+@app.route('/')
+def index():
+    return "yes!"
 
+
+@app.route('/map/<quadkey>/', methods=['GET', 'POST'])
+def mapsource(quadkey):
+    headers = {h[0]: h[1] for h in request.headers}
+    for s in sources:
+        try:
+            result = requests.request(request.method, s.format(quadkey=quadkey), headers=headers).content
+            return result
+        except Exception as e:
+            print(e)
 
 @app.route('/api/hotmap', methods=['GET', 'POST'])
 def gethotmap():

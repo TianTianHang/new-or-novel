@@ -3,12 +3,7 @@ import pandas as pd
 import plotly.graph_objs as go
 import requests
 
-bing_map_token = 'AlokyiLvd54vljDRnjUfkF_STJ2nGNZ9N1j_FAFtAMERXrTc57hJdKRyq6yc2EDk'
-req = requests.get('https://dev.virtualearth.net/REST/V1/Imagery/Metadata/CanvasLight?output=json&include'
-                   '=ImageryProviders&key={BingMapsKey}'.format(BingMapsKey=bing_map_token))
-url_json = req.json()['resourceSets'][0]['resources'][0]
-source = [url_json['imageUrl'].replace('{subdomain}', sub) for sub in
-          url_json['imageUrlSubdomains']]
+from utils.config import MAP_SOURCE
 
 
 def MinMaxScaler(df, start, end):
@@ -52,8 +47,10 @@ def hotmapbyword(df: pd.DataFrame, title):
                                        dict(
                                            below="traces",
                                            sourcetype="raster",
+                                           # 地图提供商
                                            sourceattribution="Bing Map",
-                                           source=source
+                                           # 由后端转发地址
+                                           source=MAP_SOURCE
                                        )
                                    ]
                                    ),
