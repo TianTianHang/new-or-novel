@@ -1,9 +1,7 @@
 import numpy as np
 import pandas as pd
 import plotly.graph_objs as go
-import requests
-
-from utils.config import MAP_SOURCE
+from utils.helper import getmapsource
 
 
 def MinMaxScaler(df, start, end):
@@ -50,7 +48,7 @@ def hotmapbyword(df: pd.DataFrame, title):
                                            # 地图提供商
                                            sourceattribution="Bing Map",
                                            # 由后端转发地址
-                                           source=MAP_SOURCE
+                                           source=getmapsource()
                                        )
                                    ]
                                    ),
