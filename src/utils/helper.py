@@ -52,7 +52,7 @@ def getmessage(request):
 def getmapsource():
     bing_map_token = 'AlokyiLvd54vljDRnjUfkF_STJ2nGNZ9N1j_FAFtAMERXrTc57hJdKRyq6yc2EDk'
     req = requests.get('https://dev.virtualearth.net/REST/V1/Imagery/Metadata/CanvasLight?output=json&include'
-                       '=ImageryProviders&key={BingMapsKey}'.format(BingMapsKey=bing_map_token))
+                       '=ImageryProviders&uriScheme=https&key={BingMapsKey}'.format(BingMapsKey=bing_map_token))
     url_json = req.json()['resourceSets'][0]['resources'][0]
     sources = [url_json['imageUrl'].replace('{subdomain}', sub) for sub in
               url_json['imageUrlSubdomains']]
