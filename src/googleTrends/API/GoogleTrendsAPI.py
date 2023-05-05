@@ -1,3 +1,5 @@
+import functools
+
 import pandas as pd
 from pytrends.request import TrendReq
 from requests import ConnectTimeout
@@ -17,6 +19,8 @@ class GoogleTrendsAPI:
 
     # time word
     @classmethod
+    # 缓存函数结果
+    @functools.lru_cache(maxsize=100)
     def getDataOvertime(cls, kw: str, timeframe, geo=''):
         cls.pytrends.build_payload(kw_list=[kw], timeframe=timeframe, cat=0, geo=geo)
         df = cls.pytrends.interest_over_time()
@@ -31,7 +35,14 @@ class GoogleTrendsAPI:
 
     # resolution='DMA' |'CITY'| 'REGION'
     @classmethod
+    @functools.lru_cache(maxsize=100)
     def getDataByRegion(cls, kw: str, timeframe, resolution='COUNTRY'):
         cls.pytrends.build_payload(kw_list=[kw], timeframe=timeframe, cat=0)
         df = cls.pytrends.interest_by_region(resolution=resolution, inc_low_vol=True, inc_geo_code=True).reset_index()
         return df[['geoName', 'geoCode', kw]]
+
+    # 清除缓存
+    @classmethod
+    def deleteCache(cls):
+        cls.getDataByRegion.cache_clear()
+        cls.getDataOvertime.cache_clear()

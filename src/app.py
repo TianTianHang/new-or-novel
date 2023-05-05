@@ -31,6 +31,8 @@ def insert_initial_values(*args, **kwargs):
     s.add(WordList(pre_words="new", has_hover=False))
     s.add(WordList(pre_words="novel", has_hover=False))
     s.commit()
+
+
 @app.route('/')
 def index():
     return "yes!"
@@ -46,6 +48,7 @@ def mapsource(quadkey):
         except Exception as e:
             print(e)
 
+
 @app.route('/api/hotmap', methods=['GET', 'POST'])
 def gethotmap():
     kw_list, timeframe_list, title = getmessage(request)
@@ -60,7 +63,6 @@ def getlinechart():
     kw_list, timeframe, title = getmessage(request)
     df: pd.DataFrame = getDataOvertimeMultiWord(kw_list, timeframe)
     df['HeatValue'] = df.iloc[..., 2:].sum(axis=1)
-    df = df.melt(id_vars='time', var_name='word', value_name='value')
     fig = linechart(df, title)
     return fig.to_json()
 
