@@ -9,7 +9,7 @@ def linechart(df: pd.DataFrame, title):
     for i, (timeframe, df_time) in enumerate(df.groupby(by='timeframe')):
         all_trace = []
         for index, kw in enumerate(df.columns[2:]):
-            trace = go.Scatter(x=df_time.time, y=df_time[kw],name=kw,
+            trace = go.Scatter(x=df_time.time, y=df_time[kw], name=kw,
                                meta=[kw, timeframe], visible=True,
                                hovertemplate='timeframe:%{meta[1]}<br>'
                                              '%{meta[0]}:%{y}<br>'

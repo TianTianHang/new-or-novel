@@ -7,7 +7,7 @@ from sqlalchemy import and_
 from sqlalchemy import event
 
 from googleTrends.services import getDataByRegionAndOvertime, getDataOvertimeMultiWord
-from myplotly import hotmapbyword, linechart
+from myplotly import density_mapbyword, linechart
 from utils.helper import get_tree, getmessage, getmapsource
 from utils import config
 from utils.models import WordList, db
@@ -54,7 +54,7 @@ def gethotmap():
     kw_list, timeframe_list, title = getmessage(request)
     df = getDataByRegionAndOvertime(kw_list, timeframe_list)
     df['HeatValue'] = df.iloc[..., 5:].sum(axis=1)
-    fig = hotmapbyword(df, title)
+    fig = density_mapbyword(df, title, 0)
     return fig.to_json()
 
 
