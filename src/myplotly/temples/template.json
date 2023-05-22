@@ -1,1 +1,30 @@
-{"layout": {"margin": {"b": 0, "l": 0, "r": 0, "t": 0}}, "data": {"choroplethmapbox": [{"featureidkey": "properties.ADMIN", "hovertemplate": "%{customdata[0]} %{customdata[1]}<br>timeframe:%{meta[1]}<br>%{meta[0]}:%{z}", "visible": true, "type": "choroplethmapbox"}], "densitymapbox": [{"hovertemplate": "%{customdata[0]} %{customdata[1]}<br>timeframe:%{meta[1]}<br>lat: %{lat:.2f},lon:%{lon:.2f}<br>%{meta[0]}:%{z}", "opacity": 0.5, "visible": true, "zmin": 0, "type": "densitymapbox"}]}}
+{
+  "layout": {
+    "margin": {
+      "b": 0,
+      "l": 0,
+      "r": 0,
+      "t": 0
+    },
+    "width": 400
+  },
+  "data": {
+    "choroplethmapbox": [
+      {
+        "featureidkey": "properties.ADMIN",
+        "hovertemplate": "%{customdata[0]} %{customdata[1]}<br>timeframe:%{meta[1]}<br>%{meta[0]}:%{z}",
+        "visible": true,
+        "type": "choroplethmapbox"
+      }
+    ],
+    "densitymapbox": [
+      {
+        "hovertemplate": "%{customdata[0]} %{customdata[1]}<br>timeframe:%{meta[1]}<br>lat: %{lat:.2f},lon:%{lon:.2f}<br>%{meta[0]}:%{z}",
+        "opacity": 0.5,
+        "visible": true,
+        "zmin": 0,
+        "type": "densitymapbox"
+      }
+    ]
+  }
+}

@@ -1,7 +1,18 @@
+import functools
+
 import requests
 from sqlalchemy import func
 
-from utils.models import WordList
+from models import WordList
+from sqlalchemy import and_
+
+
+def get_kw_by_id(db, kw_id):
+    s = db.session
+    kw = s.query(WordList).filter(and_(WordList.id == kw_id, WordList.parent_id != None)).all()
+    if len(kw) != 0:
+        return wordlist_to_dict(*kw)
+    return {}
 
 
 def get_tree(db):
@@ -39,20 +50,13 @@ def wordlist_to_dict(wordlist):
     }
 
 
-def getmessage(request):
-    json_data = request.get_json()
-    timeframe_list = json_data['timeframe_list']
-    kw_list = json_data['kw_list']
-    title = json_data['title']
-    timeframe_list_c = []
-    for timeframe in timeframe_list:
-        timeframe_list_c.append(timeframe[0] + ' ' + timeframe[1])
-    return kw_list, timeframe_list_c, title
 
 
+
+# 动态请求bing api接口
+@functools.lru_cache(maxsize=1)
 def getmapsource():
     bing_map_token = 'AlokyiLvd54vljDRnjUfkF_STJ2nGNZ9N1j_FAFtAMERXrTc57hJdKRyq6yc2EDk'
-    # uriScheme=https 请求到的url协议改为https（https和http不能混用）
     req = requests.get('https://dev.virtualearth.net/REST/V1/Imagery/Metadata/CanvasLight?output=json&include'
                        '=ImageryProviders&uriScheme=https&key={BingMapsKey}'.format(BingMapsKey=bing_map_token))
     url_json = req.json()['resourceSets'][0]['resources'][0]

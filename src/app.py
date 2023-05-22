@@ -1,16 +1,16 @@
 import pandas as pd
-import requests
 from flask import Flask, request
 from flask_cors import CORS
 from flask import render_template
 from sqlalchemy import and_
 from sqlalchemy import event
 
+from blueprint import kwlist_bp, heatmap_bp, line_chart_bp
 from googleTrends.services import getDataByRegionAndOvertime, getDataOvertimeMultiWord
 from myplotly import density_mapbyword, linechart
-from utils.helper import get_tree, getmessage, getmapsource
-from utils import config
-from utils.models import WordList, db
+from utils.helper import get_tree, getmapsource
+import config
+from models import WordList, db
 
 app = Flask(__name__)
 # app.config["SQLALCHEMY_DATABASE_URI"] = 'mysql+pymysql://{}:{}@{}:{}/{}'.format('root', '19771201qwer',
@@ -38,39 +38,9 @@ def index():
     return "yes!"
 
 
-@app.route('/map/<quadkey>/', methods=['GET', 'POST'])
-def mapsource(quadkey):
-    headers = {h[0]: h[1] for h in request.headers}
-    for s in sources:
-        try:
-            result = requests.request(request.method, s.format(quadkey=quadkey), headers=headers).content
-            return result
-        except Exception as e:
-            print(e)
-
-
-@app.route('/api/hotmap', methods=['GET', 'POST'])
-def gethotmap():
-    kw_list, timeframe_list, title = getmessage(request)
-    df = getDataByRegionAndOvertime(kw_list, timeframe_list)
-    df['HeatValue'] = df.iloc[..., 5:].sum(axis=1)
-    fig = density_mapbyword(df, title, 0)
-    return fig.to_json()
-
-
-@app.route('/api/linechart', methods=['GET', 'POST'])
-def getlinechart():
-    kw_list, timeframe, title = getmessage(request)
-    df: pd.DataFrame = getDataOvertimeMultiWord(kw_list, timeframe)
-    df['HeatValue'] = df.iloc[..., 2:].sum(axis=1)
-    fig = linechart(df, title)
-    return fig.to_json()
-
-
-@app.route('/api/kwlist', methods=['GET', 'POST'])
-def getkwlist():
-    result, nextId = get_tree(db)
-    return dict(tree=result, nextId=nextId)
+app.register_blueprint(line_chart_bp)
+app.register_blueprint(heatmap_bp)
+app.register_blueprint(kwlist_bp)
 
 
 @app.route('/addWord', methods=['GET', 'POST'])

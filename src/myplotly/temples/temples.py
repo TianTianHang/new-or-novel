@@ -26,7 +26,7 @@ COLOR_MAP = [
     [0.6, '#FF6600'],
     [1, "red"]
 ]
-TEMPLATES = go.layout.Template().update()
+TEMPLATES = go.layout.Template()
 with open('src/myplotly/temples/template.json', 'r') as f:
     TEMPLATES.update(json.load(f))
 
