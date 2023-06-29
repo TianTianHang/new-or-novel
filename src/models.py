@@ -33,7 +33,6 @@ class WordList(Base):
     post_words = Column(String(100), nullable=True)
     title = Column(String(100), nullable=True)
     content = Column(String(100), nullable=True)
-    img = Column(String(100), nullable=True)
     parent_id = Column(Integer, ForeignKey('wordList.id'), nullable=True)
     has_hover = Column(Boolean, nullable=False)
     children = relationship("WordList", backref=backref("parent", remote_side=[id]))

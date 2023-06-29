@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from marshmallow import Schema, fields, validates_schema, ValidationError
-from flask import request
+from flask import request, jsonify
 
 
 class OptionSchema(Schema):
@@ -30,7 +30,7 @@ class ChartAPI(MethodView):
             fig = self.chart_func(df, title, 0)
             return fig.to_json()
         else:
-            return result[1:]
+            return jsonify(result[1:-1]), result[-1]
 
     def valid_message(self, request):
         schema = OptionSchema()
@@ -43,4 +43,4 @@ class ChartAPI(MethodView):
             kw_list = form['kw_list']
             title = form['title']
             timeframe_list_c = list(map(lambda e: ' '.join(e), timeframe_list))
-        return True, kw_list, timeframe_list_c, title
+            return True, kw_list, timeframe_list_c, title

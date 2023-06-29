@@ -1,3 +1,4 @@
+import copy
 import json
 import plotly.io
 import plotly.graph_objects as go
@@ -26,6 +27,7 @@ COLOR_MAP = [
     [0.6, '#FF6600'],
     [1, "red"]
 ]
+
 TEMPLATES = go.layout.Template()
 with open('src/myplotly/temples/template.json', 'r') as f:
     TEMPLATES.update(json.load(f))
@@ -41,20 +43,23 @@ def template_layout():
 
 
 def add_template(template, type):
-    if type == 'choroplethmapbox' or type == 'densitymapbox' or type == 'scattermapbox':
+    if type in plotly.graph_objects.__all__:
         TEMPLATES['date'][type].appned(template)
         template_to_json()
     else:
-        raise ValueError('the type is one of choroplethmapbox,densitymapbox,scattermapbox')
+        raise ValueError('no such type!')
 
 
 def get_template(type, index):
-    tf = TEMPLATES['data'][type][index]
-    tf.update(colorscale=COLOR_MAP)
+    tf = copy.copy(TEMPLATES['data'][type][index])
+    try:
+        tf.update(colorscale=COLOR_MAP)
+    except ValueError as e:
+        pass
     return tf
 
 
-def mapbox_factory(type, index, **kwargs):
+def base_factory(type, index, **kwargs):
     trace = get_template(type, index)
     trace.update(kwargs)
     return trace

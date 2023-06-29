@@ -21,9 +21,9 @@ heatmap_bp = Blueprint('heatmap', __name__)
 heatmap_view = ChartAPI.as_view('kwlist', chart_func=density_mapbyword, data_func=heatmap_data_func)
 
 line_chart_bp = Blueprint('line_chart', __name__)
-line_chart_view = ChartAPI.as_view('kwlist', chart_func=linechart, data_func=line_chart_data_func)
-
+# TODO chart_fun 需要更改
+line_chart_view = ChartAPI.as_view('kwlist', chart_func=linechart,
+                                   data_func=line_chart_data_func)
 
 heatmap_bp.add_url_rule('/api/chart/heatmap', view_func=heatmap_view, methods=['POST'])
 line_chart_bp.add_url_rule('/api/chart/linechart', view_func=line_chart_view, methods=['POST'])
-

@@ -6,7 +6,8 @@
       "r": 0,
       "t": 0
     },
-    "width": 400
+    "width": 400,
+    "height": 400
   },
   "data": {
     "choroplethmapbox": [
@@ -24,6 +25,13 @@
         "visible": true,
         "zmin": 0,
         "type": "densitymapbox"
+      }
+    ],
+    "scatter": [
+      {
+        "visible":true,
+        "hovertemplate":"timeframe:%{meta[1]}<br>%{meta[0]}:%{y}<br>time:%{x}",
+        "type": "scatter"
       }
     ]
   }
