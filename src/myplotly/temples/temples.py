@@ -1,7 +1,8 @@
 import copy
 import json
-import plotly.io
+
 import plotly.graph_objects as go
+import plotly.io
 
 from utils.helper import getmapsource
 

@@ -1,0 +1,22 @@
+# 请求Google Trends 接口
+POST http://127.0.0.1:4444/api/v1/trends/region
+Content-Type: application/json
+Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkwOTcyMDQwLCJqdGkiOiIyNzZlNzk5MS1mODBmLTRiNzEtYmM1Ni1mMzExYzE0ZTNiZTIiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTA5NzIwNDAsImV4cCI6MTY5MDk3NTY0MCwicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.rgkPF4grJGvVr-eoYcuBDV-DudFgz3VmhcOc0UTPJw0
+
+{
+  "keyword": "new",
+  "timeframe": "all"
+}
+###
+GET http://127.0.0.1:4444/api/v1/trends/categories
+Content-Type: application/json
+Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkxMDI1MjQ1LCJqdGkiOiJhMWM5NzI3Yy00MjVjLTQ2ZTctYTA1Ni02M2FlZDcwNGQwNjciLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTEwMjUyNDUsImV4cCI6MTY5MTAyODg0NSwicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.ypdwtoCI3WkzBmwjQmt61jn3JAW5iNBXHnRi2miE4Gs
+###
+POST http://127.0.0.1:4444/api/v1/trends/overTime
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkxMDI5OTIzLCJqdGkiOiI5NzJkYmJmNi01NjJlLTQ5NGMtYTBiMy02OWZmNTBkNWVlZTgiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTEwMjk5MjMsImV4cCI6MTY5MTAzMzUyMywicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.qeFwaIBpGE2whHB21lGLA9HFmp5-MEdntwo7dGLSE2A
+
+{
+  "keyword": "new",
+  "timeframe": "all"
+}

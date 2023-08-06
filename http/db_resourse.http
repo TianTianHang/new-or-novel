@@ -1,0 +1,59 @@
+# 测试数据库资源接口
+# 查询
+GET http://localhost:4444/api/v1/words/1000
+
+###
+# 增
+POST http://localhost:4444/api/v1/words
+Content-Type: application/json
+
+{
+  "word_text": "new phone",
+  "word_category": "new",
+  "word_details": " "
+}
+
+###
+# 查询
+GET http://localhost:4444/api/v1/users/1
+
+###
+# 增
+POST http://localhost:4444/api/v1/users
+Content-Type: application/json
+
+{
+  "username": "V111",
+  "password": "918113",
+  "roles": [
+    "admin"
+  ]
+}
+
+###
+POST http://localhost:4444/api/v1/users/login
+Content-Type: application/json
+
+{
+  "username": "V111",
+  "password": "19771201qwer"
+}
+
+###
+GET http://localhost:4444/api/v1/users/info
+Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkwOTU4OTczLCJqdGkiOiIxZWI0YWZiYi1hZTg1LTQ5ZmItODc2Mi02ZmRmMTUxNmM5YzQiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTA5NTg5NzMsImV4cCI6MTY5MDk2MjU3Mywicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.vHjbdA2VZy2DtY5-NngZqI-i9U8ppUyjPwFHnXdEMV8
+
+###
+PUT http://localhost:4444/api/v1/users/1
+Content-Type: application/json
+
+{
+  "username": "V111",
+  "password": "918113",
+  "roles": [
+    "editor",
+    "admin"
+  ]
+}
+GET
+

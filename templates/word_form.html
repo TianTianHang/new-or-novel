@@ -14,7 +14,7 @@
 <div id="app">
     <el-tree-v2 :data="{{ wordsTree }}" :props="{children: 'children'}" accordion node-kwy="id">
         <template #default="{ node, data }">
-           <span>{[data.id]} </span>&nbsp;<span>{[data.word.pre_words]}</span>&nbsp;
+            <span>{[data.id]} </span>&nbsp;<span>{[data.word.pre_words]}</span>&nbsp;
             <span v-if="data.word.post_words">{[data.word.post_words]}</span>
             <div style="flex-grow: 0.8"></div>
             <el-button v-if="data.has_hover">more</el-button>

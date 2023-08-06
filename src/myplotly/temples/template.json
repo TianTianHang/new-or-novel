@@ -29,8 +29,8 @@
     ],
     "scatter": [
       {
-        "visible":true,
-        "hovertemplate":"timeframe:%{meta[1]}<br>%{meta[0]}:%{y}<br>time:%{x}",
+        "visible": true,
+        "hovertemplate": "timeframe:%{meta[1]}<br>%{meta[0]}:%{y}<br>time:%{x}",
         "type": "scatter"
       }
     ]

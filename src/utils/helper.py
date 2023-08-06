@@ -1,10 +1,9 @@
 import functools
 
 import requests
-from sqlalchemy import func
+from sqlalchemy import and_
 
 from models import WordList
-from sqlalchemy import and_
 
 
 def add_kw(db, kw_info):
@@ -34,7 +33,6 @@ def remove_kw(db, kw_id):
     rs = s.query(WordList).filter_by(id=kw_id).delete()
     s.commit()
     return rs
-
 
 
 def get_kw_by_id(db, kw_id):
@@ -87,13 +85,4 @@ def dict_to_wordlist(wordlist_dict):
                     has_hover=wordlist_dict['has_hover'], )
 
 
-# 动态请求bing api接口
-@functools.lru_cache(maxsize=1)
-def getmapsource():
-    bing_map_token = 'AlokyiLvd54vljDRnjUfkF_STJ2nGNZ9N1j_FAFtAMERXrTc57hJdKRyq6yc2EDk'
-    req = requests.get('https://dev.virtualearth.net/REST/V1/Imagery/Metadata/CanvasLight?output=json&include'
-                       '=ImageryProviders&uriScheme=https&key={BingMapsKey}'.format(BingMapsKey=bing_map_token))
-    url_json = req.json()['resourceSets'][0]['resources'][0]
-    sources = [url_json['imageUrl'].replace('{subdomain}', sub) for sub in
-               url_json['imageUrlSubdomains']]
-    return sources
+

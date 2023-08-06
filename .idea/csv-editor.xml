@@ -45,17 +45,24 @@
             </Attribute>
           </value>
         </entry>
-        <entry key="\geoLocation.csv">
+        <entry key="\resource\data\geoLocation.csv">
           <value>
             <Attribute>
               <option name="separator" value="&#9;" />
             </Attribute>
           </value>
         </entry>
-        <entry key="\src\googleTrends\API\geoLocation.csv">
+        <entry key="\resource\data\geo_country_with_location.csv">
           <value>
             <Attribute>
-              <option name="separator" value="&#9;" />
+              <option name="separator" value="," />
+            </Attribute>
+          </value>
+        </entry>
+        <entry key="\resource\wordList.csv">
+          <value>
+            <Attribute>
+              <option name="separator" value="," />
             </Attribute>
           </value>
         </entry>

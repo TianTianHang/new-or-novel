@@ -3,7 +3,6 @@ import time
 import myplotly
 
 if __name__ == '__main__':
-    df = getDataByRegionAndOvertimeGevent(['apple', 'iphone'], ['2004-01-01 2005-01-01', '2005-01-01 2006-01-01'])
-    start1 = time.time()
-    myplotly.hotmapbyword(df, 'test')
-    print(time.time() - start1)
+    pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2,
+                        backoff_factor=0.1, requests_args={'headers': {}})
+    print(pytrends.categories())

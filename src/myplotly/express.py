@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
+import plotly.graph_objects as go
 
 from myplotly.temples import base_factory, template_layout, Bing_Map_Template
-import plotly.graph_objects as go
 
 
 def MinMaxScaler(df, start, end):
