@@ -35,8 +35,8 @@ POST http://localhost:4444/api/v1/users/login
 Content-Type: application/json
 
 {
-  "username": "V111",
-  "password": "19771201qwer"
+  "username": "admin",
+  "password": "12345678"
 }
 
 ###
@@ -55,5 +55,8 @@ Content-Type: application/json
     "admin"
   ]
 }
-GET
+###
+GET http://localhost:4444/api/v1/word-list
+Authorization:Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkxNTg4MzYxLCJqdGkiOiI3MDNkOWQ5Yy0wNTZkLTRjNzctYjQ4OS0wN2FjZWM3MmJkZDEiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTE1ODgzNjEsImV4cCI6MTY5MTU5MTk2MSwicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.76NWjvY728hlJSgecRacMjEVwcIFlHSqycfzlX9-tKw
+
 

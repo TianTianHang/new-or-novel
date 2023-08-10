@@ -18,7 +18,7 @@ def format_response(response):
     data = response.get_json()
 
     # 检查响应是否包含符合格式的字段
-    if all(key in data for key in ["code", "message", "data"]):
+    if data and all(key in data for key in ["code", "message", "data"]):
         return response
 
     # 如果不符合格式，进行格式化
@@ -26,15 +26,15 @@ def format_response(response):
     # 默认响应信息
     code = response.status_code
     message = response.status
+    if data:
+        # 提取数据和消息（如果存在）
+        code = data.get("code", code)
 
-    # 提取数据和消息（如果存在）
-    code = data.get("code", code)
-
-    if "message" in data:
-        message = data["message"]
-    elif "msg" in data:
-        message = data["msg"]
-    data = data.get("data", None)
+        if "message" in data:
+            message = data["message"]
+        elif "msg" in data:
+            message = data["msg"]
+        data = data.get("data", None)
 
     # 格式化为JSON响应
     response_data = {

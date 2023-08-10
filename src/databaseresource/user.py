@@ -87,6 +87,7 @@ login_parser.add_argument('password', type=str, required=True, help='Password is
 
 
 class UserMethods(Resource):
+    @jwt_required()
     def get(self, method):
         if 'info' == method:
             return self.info()
@@ -111,7 +112,6 @@ class UserMethods(Resource):
 
         return {"code": 200, 'data': {"token": token}, "message": "Login successful"}, 200
 
-    @jwt_required()
     def info(self):
         user_id = get_jwt_identity()
         user = User.query.get(user_id)
