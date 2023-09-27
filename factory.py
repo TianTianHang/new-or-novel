@@ -1,22 +1,19 @@
-from flask import Flask
+from fastapi import FastAPI
+from pydantic.tools import lru_cache
 
-import settings
-from databaseresource.user import UserResource, UserMethods
-from databaseresource.word import WordResource, WordListResource
-from extendsions import db, api, cors, jwt
-from google_trends import TrendsRestful
-from google_trends.TrendsRestful import BingMapResource
+from main import settings
+from main.databaseresource.user import UserResource, UserMethods
+from main.databaseresource.word import WordResource, WordListResource
+from main.google_trends import TrendsRestful
+from main.google_trends.TrendsRestful import BingMapResource
 
 
 def create_app():
-    app = Flask(__name__)
+    app = FastAPI()
 
-    app.config.from_object(settings.DevelopmentConfig)
-
-    db.init_app(app)
-    with app.app_context():
-        db.create_all()
-
+    @lru_cache()
+    def get_settings():
+        return settings.DevelopmentConfig()
     cors.init_app(app, max_age=6000)
     jwt.init_app(app)
     api.add_resource(TrendsRestful, '/trends/<query_type>')

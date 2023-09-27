@@ -1,11 +1,14 @@
 # 请求Google Trends 接口
-GET http://127.0.0.1:4444/api/v1/trends/region
+POST http://127.0.0.1:4444/api/v1/trends/region
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkxNDExNTQzLCJqdGkiOiIyMjNjNDJhOC0zNmQ4LTRlNDQtYWUxMC04OWEwOGNhMzdlYjIiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTE0MTE1NDMsImV4cCI6MTY5MTQxNTE0Mywicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.SdGi3piMbYSXzjmbfL-DLTKrk5zUXV9xLDInNcrcA6w
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkyMTU4ODYxLCJqdGkiOiIyYTlkN2NhYi0wMjJmLTRjZDYtYjk2NC01YTQ1YWFiYTFhM2QiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTIxNTg4NjEsImV4cCI6MTY5MjE2MjQ2MSwicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.X2Zndl-NUhIjZFL0ve_Uppo2DECabxncGI9xn9tJpzA
 
 {
-  "keyword": "new",
-  "timeframe": "all"
+  "q": "new",
+  "date": {
+    "startTime": "2004-01-01T0",
+    "endTime": "2005-01-01T0"
+  }
 }
 ###
 GET http://127.0.0.1:4444/api/v1/trends/categories
@@ -22,11 +25,11 @@ Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwia
 ###
 POST http://127.0.0.1:4444/api/v1/trends/overTime
 Content-Type: application/json
-Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkxNDExNTQzLCJqdGkiOiIyMjNjNDJhOC0zNmQ4LTRlNDQtYWUxMC04OWEwOGNhMzdlYjIiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTE0MTE1NDMsImV4cCI6MTY5MTQxNTE0Mywicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.SdGi3piMbYSXzjmbfL-DLTKrk5zUXV9xLDInNcrcA6w
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6dHJ1ZSwiaWF0IjoxNjkyMDgyODk4LCJqdGkiOiJlZDcyN2FjZC05OTQzLTRiMjctYTlhZi03MjliNzYxZWMyYjgiLCJ0eXBlIjoiYWNjZXNzIiwic3ViIjoxLCJuYmYiOjE2OTIwODI4OTgsImV4cCI6MTY5MjA4NjQ5OCwicm9sZSI6ImFkbWluIiwiaXNfdmVyaWZpZWQiOnRydWV9.BkHlwzvDdUJaiVSqVNzM7Qx2fJGTlNMgN9tbem-_zQg
 
 {
-  "keyword": "new",
-  "timeframe": "all"
+  "q": "new",
+  "date": "all"
 
 }
 ###

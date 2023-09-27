@@ -1,1 +1,0 @@
-from google_trends.TrendsRestful import TrendsRestful
