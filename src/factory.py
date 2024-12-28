@@ -8,6 +8,7 @@ from google_trends import TrendsRestful
 from google_trends.TrendsRestful import BingMapResource
 
 
+
 def create_app():
     app = Flask(__name__)
 

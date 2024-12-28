@@ -1,10 +1,11 @@
 
+import pandas as pd
 import requests
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, reqparse
 from pytrends.request import TrendReq
 from requests import ConnectTimeout
-
+from trendspy import Trends
 import app
 from utils.response_format_until import format_response, dataframe2json
 
@@ -37,9 +38,13 @@ class BingMapResource(Resource):
 
 class TrendsRestful(Resource):
     def __init__(self):
+        proxy = 'http://77b3a78d:94b27ae3ecca4e839f7102d2d3f2d188@global.proxy.acedata.cloud:30007'
+        proxies = {
+            'http': proxy,
+            'https': proxy
+        }
         try:
-            self.pytrends = TrendReq(hl='en-US', tz=360, timeout=(10, 25), retries=2,
-                                     backoff_factor=0.1, requests_args={'headers': {}})
+            self.pytrends = Trends(request_delay=2,proxy=proxies)
         except ConnectTimeout as e:
             raise e
 
@@ -49,7 +54,7 @@ class TrendsRestful(Resource):
             args = region_parser.parse_args(strict=True)
             data = self.get_interest_by_region(**args)
             # data = pd.read_csv('resource/data/geo_country_with_location.csv', index_col=1)
-            data.reset_index(names=['geoName'], inplace=True)
+            #data.reset_index(names=['geoName'], inplace=True)
             return format_response(dataframe2json(data))
         if 'overTime' == query_type:
             args = parser.parse_args(strict=True)
@@ -76,41 +81,40 @@ class TrendsRestful(Resource):
             args = suggest_parser.parse_args(strict=True)
             keyword = args['keyword']
             data = self.suggestions(keyword)
-            return {'code': 200,
-                    'data': data,
-                    'message': ''}, 200
+            return format_response(dataframe2json(data))
         if 'categories' == query_type:
             data = self.categories()
-            categories = [{'name': data['name'], 'id': data['id']}]
-            categories.extend(data['children'])
-            return {'code': 200,
-                    'data': categories,
-                    'message': ''}, 200
-
+            categories= data
+            #categories = [{'name': data['name'], 'id': data['id']}]
+            #categories.extend(data['children'])
+            return format_response(data)
+            
+    from utils.cache import cache_decorator
+    @cache_decorator
     def get_interest_over_time(self, keyword, cat=0, timeframe='today 5-y', geo='', gprop='', ):
-        self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
-        data = self.pytrends.interest_over_time()
+        #elf.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
+        data = self.pytrends.interest_over_time([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
         return data
-
+    @cache_decorator
     def get_interest_by_region(self, keyword, cat=0, timeframe='today 5-y', geo='', gprop='', resolution='COUNTRY'):
-        self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
-        data = self.pytrends.interest_by_region(resolution=resolution, inc_low_vol=True, inc_geo_code=True)
+        #self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
+        data = self.pytrends.interest_by_region([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop,resolution=resolution, inc_low_vol=True)
         return data
-
+    @cache_decorator
     def get_related_topics(self, keyword, cat=0, timeframe='today 5-y', geo='', gprop='', ):
-        self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
-        data = self.pytrends.related_topics()
+        #self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
+        data = self.pytrends.related_topics([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
 
         return data
-
+    @cache_decorator
     def get_related_queries(self, keyword, cat=0, timeframe='today 5-y', geo='', gprop='', ):
-        self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
-        data = self.pytrends.related_queries()
+        #self.pytrends.build_payload([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
+        data = self.pytrends.related_queries([keyword], cat=cat, timeframe=timeframe, geo=geo, gprop=gprop)
         return data
-
+    @cache_decorator
     def suggestions(self, keyword):
         data = self.pytrends.suggestions(keyword)
         return data
-
+    @cache_decorator
     def categories(self):
         return self.pytrends.categories()

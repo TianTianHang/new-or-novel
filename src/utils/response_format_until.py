@@ -3,7 +3,7 @@ import pandas as pd
 
 def format_response(data, code=200, message=''):
     return {'code': code,
-            'data': data,
+            'data': dataframe2json(data) if isinstance(data, pd.DataFrame) else data,
             'message': message}, code
 
 

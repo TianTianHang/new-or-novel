@@ -107,7 +107,7 @@ class UserMethods(Resource):
             return {"code": 401, 'data': None, "message": "Invalid credentials"}, 401
 
         # Add your login logic here, for example, setting up a session or generating a token
-        token = create_access_token(identity=user.id, expires_delta=datetime.timedelta(seconds=3600), fresh=True,
+        token = create_access_token(identity=str(user.id), expires_delta=datetime.timedelta(seconds=3600), fresh=True,
                                     additional_claims={'role': 'admin', 'is_verified': True})
 
         return {"code": 200, 'data': {"token": token}, "message": "Login successful"}, 200

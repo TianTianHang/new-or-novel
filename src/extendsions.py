@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 # 扩展类实例化
 db = SQLAlchemy()
+
 api = Api(prefix='/api/v1/')
 cors = CORS()
 jwt = JWTManager()
