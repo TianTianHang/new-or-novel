@@ -1,5 +1,4 @@
 from flask import Flask
-
 import settings
 from databaseresource.user import UserResource, UserMethods
 from databaseresource.word import WordResource, WordListResource

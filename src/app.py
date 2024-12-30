@@ -1,5 +1,4 @@
-from flask import jsonify
-
+from flask import jsonify, render_template
 from factory import create_app
 
 app = create_app()

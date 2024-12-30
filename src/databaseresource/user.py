@@ -34,6 +34,14 @@ class UserResource(Resource):
         password = args['password']
         roles = args['roles']
 
+        # 检查用户名是否已存在
+        if User.query.filter_by(username=username).first():
+            return {"code": 400, "data": None, "message": "Username already exists"}, 400
+
+        # 检查密码强度
+        if len(password) < 8:
+            return {"code": 400, "data": None, "message": "Password must be at least 8 characters"}, 400
+
         user = User(username=username, password=password)
         if roles:
             for role_name in roles:
@@ -43,7 +51,7 @@ class UserResource(Resource):
 
         db.session.add(user)
         db.session.commit()
-        return {"code": 200, "data": {"id": user.id}, "message": "User created successfully"}, 200
+        return {"code": 201, "data": {"id": user.id}, "message": "User registered successfully"}, 201
 
     def put(self, user_id):
         user = User.query.get(user_id)
@@ -103,7 +111,7 @@ class UserMethods(Resource):
 
         user = User.query.filter_by(username=username).first()
 
-        if not user or not user.password == password:
+        if not user or not user.verify_password(password):
             return {"code": 401, 'data': None, "message": "Invalid credentials"}, 401
 
         # Add your login logic here, for example, setting up a session or generating a token
